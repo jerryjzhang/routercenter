@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routeInfoList>
+	<routeInfo>
+		<serviceID>
+			<business>demo</business>
+			<service>simple-socket-service</service>
+		</serviceID>
+		<nodes>
+			<node>
+				<host>localhost</host>
+				<port>50030</port>
+				<weight>50</weight>
+			</node>
+			<node>
+				<host>localhost</host>
+				<port>50031</port>
+				<weight>50</weight>
+			</node>
+		</nodes>
+		<strategies>
+			<entry>
+				<key>LOAD_BALANCE</key>
+				<value>
+					<type>LOAD_BALANCE</type>
+					<option>WEIGHT_ROUNDROBIN</option>
+				</value>
+			</entry>
+			<entry>
+				<key>FAULT_TOLERANCE</key>
+				<value>
+					<type>FAULT_TOLERANCE</type>
+					<option>FAILOVER</option>
+				</value>
+			</entry>
+		</strategies>
+	</routeInfo>
+
+</routeInfoList>

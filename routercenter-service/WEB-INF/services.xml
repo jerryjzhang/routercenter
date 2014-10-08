@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+	<service name="RouterCenterService">
+		<home-api>com.qq.routercenter.share.service.RouterService</home-api>
+		<home-class>com.qq.routercenter.service.impl.RouterServiceImpl</home-class>
+	</service>
+		<service name="RouterCenterBackend">
+		<home-api>com.qq.routercenter.share.service.RouterBackend</home-api>
+		<home-class>com.qq.routercenter.service.impl.RouterBackendImpl</home-class>
+	</service>
+</services>
