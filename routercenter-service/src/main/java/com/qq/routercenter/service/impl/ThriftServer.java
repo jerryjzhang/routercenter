@@ -1,8 +1,8 @@
 package com.qq.routercenter.service.impl;
 
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TSimpleServer;
-import org.apache.thrift.server.TServer.Args;
+import org.apache.thrift.server.TThreadPoolServer.Args;
+import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
@@ -19,7 +19,7 @@ public class ThriftServer {
 			processor = new RouterServiceThrift.Processor(handler);
 
 			TServerTransport serverTransport = new TServerSocket(19800);
-			TServer server = new TSimpleServer(
+			TServer server = new TThreadPoolServer(
 					new Args(serverTransport).processor(processor));
 
 			System.out.println("Starting the simple server...");
