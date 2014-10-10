@@ -3,8 +3,8 @@ package com.qq.routercenter.client.loadbalance;
 import java.util.List;
 import java.util.Random;
 
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 /**
  * The class that implements weight-based Random 

@@ -38,11 +38,19 @@ public class RouterServiceThrift {
 
     public void heartbeat(List<RouteNodeInfo> nodes) throws org.apache.thrift.TException;
 
+    public RouteInfoUpdate pullRouteUpdate(RouteInfoRequest request) throws org.apache.thrift.TException;
+
+    public List<RouteInfoUpdate> pullRouteUpdates(List<RouteInfoRequest> requests) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
 
     public void heartbeat(List<RouteNodeInfo> nodes, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+
+    public void pullRouteUpdate(RouteInfoRequest request, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+
+    public void pullRouteUpdates(List<RouteInfoRequest> requests, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -84,6 +92,52 @@ public class RouterServiceThrift {
       heartbeat_result result = new heartbeat_result();
       receiveBase(result, "heartbeat");
       return;
+    }
+
+    public RouteInfoUpdate pullRouteUpdate(RouteInfoRequest request) throws org.apache.thrift.TException
+    {
+      send_pullRouteUpdate(request);
+      return recv_pullRouteUpdate();
+    }
+
+    public void send_pullRouteUpdate(RouteInfoRequest request) throws org.apache.thrift.TException
+    {
+      pullRouteUpdate_args args = new pullRouteUpdate_args();
+      args.setRequest(request);
+      sendBase("pullRouteUpdate", args);
+    }
+
+    public RouteInfoUpdate recv_pullRouteUpdate() throws org.apache.thrift.TException
+    {
+      pullRouteUpdate_result result = new pullRouteUpdate_result();
+      receiveBase(result, "pullRouteUpdate");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "pullRouteUpdate failed: unknown result");
+    }
+
+    public List<RouteInfoUpdate> pullRouteUpdates(List<RouteInfoRequest> requests) throws org.apache.thrift.TException
+    {
+      send_pullRouteUpdates(requests);
+      return recv_pullRouteUpdates();
+    }
+
+    public void send_pullRouteUpdates(List<RouteInfoRequest> requests) throws org.apache.thrift.TException
+    {
+      pullRouteUpdates_args args = new pullRouteUpdates_args();
+      args.setRequests(requests);
+      sendBase("pullRouteUpdates", args);
+    }
+
+    public List<RouteInfoUpdate> recv_pullRouteUpdates() throws org.apache.thrift.TException
+    {
+      pullRouteUpdates_result result = new pullRouteUpdates_result();
+      receiveBase(result, "pullRouteUpdates");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "pullRouteUpdates failed: unknown result");
     }
 
   }
@@ -136,6 +190,70 @@ public class RouterServiceThrift {
       }
     }
 
+    public void pullRouteUpdate(RouteInfoRequest request, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      pullRouteUpdate_call method_call = new pullRouteUpdate_call(request, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class pullRouteUpdate_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private RouteInfoRequest request;
+      public pullRouteUpdate_call(RouteInfoRequest request, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.request = request;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("pullRouteUpdate", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        pullRouteUpdate_args args = new pullRouteUpdate_args();
+        args.setRequest(request);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public RouteInfoUpdate getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_pullRouteUpdate();
+      }
+    }
+
+    public void pullRouteUpdates(List<RouteInfoRequest> requests, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      pullRouteUpdates_call method_call = new pullRouteUpdates_call(requests, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class pullRouteUpdates_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private List<RouteInfoRequest> requests;
+      public pullRouteUpdates_call(List<RouteInfoRequest> requests, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.requests = requests;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("pullRouteUpdates", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        pullRouteUpdates_args args = new pullRouteUpdates_args();
+        args.setRequests(requests);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public List<RouteInfoUpdate> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_pullRouteUpdates();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -150,6 +268,8 @@ public class RouterServiceThrift {
 
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("heartbeat", new heartbeat());
+      processMap.put("pullRouteUpdate", new pullRouteUpdate());
+      processMap.put("pullRouteUpdates", new pullRouteUpdates());
       return processMap;
     }
 
@@ -173,6 +293,46 @@ public class RouterServiceThrift {
       }
     }
 
+    public static class pullRouteUpdate<I extends Iface> extends org.apache.thrift.ProcessFunction<I, pullRouteUpdate_args> {
+      public pullRouteUpdate() {
+        super("pullRouteUpdate");
+      }
+
+      public pullRouteUpdate_args getEmptyArgsInstance() {
+        return new pullRouteUpdate_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public pullRouteUpdate_result getResult(I iface, pullRouteUpdate_args args) throws org.apache.thrift.TException {
+        pullRouteUpdate_result result = new pullRouteUpdate_result();
+        result.success = iface.pullRouteUpdate(args.request);
+        return result;
+      }
+    }
+
+    public static class pullRouteUpdates<I extends Iface> extends org.apache.thrift.ProcessFunction<I, pullRouteUpdates_args> {
+      public pullRouteUpdates() {
+        super("pullRouteUpdates");
+      }
+
+      public pullRouteUpdates_args getEmptyArgsInstance() {
+        return new pullRouteUpdates_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public pullRouteUpdates_result getResult(I iface, pullRouteUpdates_args args) throws org.apache.thrift.TException {
+        pullRouteUpdates_result result = new pullRouteUpdates_result();
+        result.success = iface.pullRouteUpdates(args.requests);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -187,6 +347,8 @@ public class RouterServiceThrift {
 
     private static <I extends AsyncIface> Map<String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(Map<String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       processMap.put("heartbeat", new heartbeat());
+      processMap.put("pullRouteUpdate", new pullRouteUpdate());
+      processMap.put("pullRouteUpdates", new pullRouteUpdates());
       return processMap;
     }
 
@@ -237,6 +399,108 @@ public class RouterServiceThrift {
 
       public void start(I iface, heartbeat_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws TException {
         iface.heartbeat(args.nodes,resultHandler);
+      }
+    }
+
+    public static class pullRouteUpdate<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, pullRouteUpdate_args, RouteInfoUpdate> {
+      public pullRouteUpdate() {
+        super("pullRouteUpdate");
+      }
+
+      public pullRouteUpdate_args getEmptyArgsInstance() {
+        return new pullRouteUpdate_args();
+      }
+
+      public AsyncMethodCallback<RouteInfoUpdate> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new AsyncMethodCallback<RouteInfoUpdate>() { 
+          public void onComplete(RouteInfoUpdate o) {
+            pullRouteUpdate_result result = new pullRouteUpdate_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+              return;
+            } catch (Exception e) {
+              LOGGER.error("Exception writing to internal frame buffer", e);
+            }
+            fb.close();
+          }
+          public void onError(Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TBase msg;
+            pullRouteUpdate_result result = new pullRouteUpdate_result();
+            {
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+              return;
+            } catch (Exception ex) {
+              LOGGER.error("Exception writing to internal frame buffer", ex);
+            }
+            fb.close();
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, pullRouteUpdate_args args, org.apache.thrift.async.AsyncMethodCallback<RouteInfoUpdate> resultHandler) throws TException {
+        iface.pullRouteUpdate(args.request,resultHandler);
+      }
+    }
+
+    public static class pullRouteUpdates<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, pullRouteUpdates_args, List<RouteInfoUpdate>> {
+      public pullRouteUpdates() {
+        super("pullRouteUpdates");
+      }
+
+      public pullRouteUpdates_args getEmptyArgsInstance() {
+        return new pullRouteUpdates_args();
+      }
+
+      public AsyncMethodCallback<List<RouteInfoUpdate>> getResultHandler(final AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new AsyncMethodCallback<List<RouteInfoUpdate>>() { 
+          public void onComplete(List<RouteInfoUpdate> o) {
+            pullRouteUpdates_result result = new pullRouteUpdates_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb,result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+              return;
+            } catch (Exception e) {
+              LOGGER.error("Exception writing to internal frame buffer", e);
+            }
+            fb.close();
+          }
+          public void onError(Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TBase msg;
+            pullRouteUpdates_result result = new pullRouteUpdates_result();
+            {
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TBase)new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+              return;
+            } catch (Exception ex) {
+              LOGGER.error("Exception writing to internal frame buffer", ex);
+            }
+            fb.close();
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, pullRouteUpdates_args args, org.apache.thrift.async.AsyncMethodCallback<List<RouteInfoUpdate>> resultHandler) throws TException {
+        iface.pullRouteUpdates(args.requests,resultHandler);
       }
     }
 
@@ -318,7 +582,8 @@ public class RouterServiceThrift {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.NODES, new org.apache.thrift.meta_data.FieldMetaData("nodes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.LIST          , "RouteNodeList")));
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RouteNodeInfo.class))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(heartbeat_args.class, metaDataMap);
     }
@@ -338,7 +603,11 @@ public class RouterServiceThrift {
      */
     public heartbeat_args(heartbeat_args other) {
       if (other.isSetNodes()) {
-        this.nodes = other.nodes;
+        List<RouteNodeInfo> __this__nodes = new ArrayList<RouteNodeInfo>(other.nodes.size());
+        for (RouteNodeInfo other_element : other.nodes) {
+          __this__nodes.add(new RouteNodeInfo(other_element));
+        }
+        this.nodes = __this__nodes;
       }
     }
 
@@ -546,14 +815,14 @@ public class RouterServiceThrift {
             case 1: // NODES
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                  struct.nodes = new ArrayList<RouteNodeInfo>(_list0.size);
-                  for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                  org.apache.thrift.protocol.TList _list44 = iprot.readListBegin();
+                  struct.nodes = new ArrayList<RouteNodeInfo>(_list44.size);
+                  for (int _i45 = 0; _i45 < _list44.size; ++_i45)
                   {
-                    RouteNodeInfo _elem2;
-                    _elem2 = new RouteNodeInfo();
-                    _elem2.read(iprot);
-                    struct.nodes.add(_elem2);
+                    RouteNodeInfo _elem46;
+                    _elem46 = new RouteNodeInfo();
+                    _elem46.read(iprot);
+                    struct.nodes.add(_elem46);
                   }
                   iprot.readListEnd();
                 }
@@ -581,9 +850,9 @@ public class RouterServiceThrift {
           oprot.writeFieldBegin(NODES_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.nodes.size()));
-            for (RouteNodeInfo _iter3 : struct.nodes)
+            for (RouteNodeInfo _iter47 : struct.nodes)
             {
-              _iter3.write(oprot);
+              _iter47.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -614,9 +883,9 @@ public class RouterServiceThrift {
         if (struct.isSetNodes()) {
           {
             oprot.writeI32(struct.nodes.size());
-            for (RouteNodeInfo _iter4 : struct.nodes)
+            for (RouteNodeInfo _iter48 : struct.nodes)
             {
-              _iter4.write(oprot);
+              _iter48.write(oprot);
             }
           }
         }
@@ -628,14 +897,14 @@ public class RouterServiceThrift {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.nodes = new ArrayList<RouteNodeInfo>(_list5.size);
-            for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+            org.apache.thrift.protocol.TList _list49 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.nodes = new ArrayList<RouteNodeInfo>(_list49.size);
+            for (int _i50 = 0; _i50 < _list49.size; ++_i50)
             {
-              RouteNodeInfo _elem7;
-              _elem7 = new RouteNodeInfo();
-              _elem7.read(iprot);
-              struct.nodes.add(_elem7);
+              RouteNodeInfo _elem51;
+              _elem51 = new RouteNodeInfo();
+              _elem51.read(iprot);
+              struct.nodes.add(_elem51);
             }
           }
           struct.setNodesIsSet(true);
@@ -886,6 +1155,1540 @@ public class RouterServiceThrift {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, heartbeat_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+      }
+    }
+
+  }
+
+  public static class pullRouteUpdate_args implements org.apache.thrift.TBase<pullRouteUpdate_args, pullRouteUpdate_args._Fields>, java.io.Serializable, Cloneable, Comparable<pullRouteUpdate_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("pullRouteUpdate_args");
+
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new pullRouteUpdate_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new pullRouteUpdate_argsTupleSchemeFactory());
+    }
+
+    public RouteInfoRequest request; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      REQUEST((short)1, "request");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUEST
+            return REQUEST;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RouteInfoRequest.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(pullRouteUpdate_args.class, metaDataMap);
+    }
+
+    public pullRouteUpdate_args() {
+    }
+
+    public pullRouteUpdate_args(
+      RouteInfoRequest request)
+    {
+      this();
+      this.request = request;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public pullRouteUpdate_args(pullRouteUpdate_args other) {
+      if (other.isSetRequest()) {
+        this.request = new RouteInfoRequest(other.request);
+      }
+    }
+
+    public pullRouteUpdate_args deepCopy() {
+      return new pullRouteUpdate_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.request = null;
+    }
+
+    public RouteInfoRequest getRequest() {
+      return this.request;
+    }
+
+    public pullRouteUpdate_args setRequest(RouteInfoRequest request) {
+      this.request = request;
+      return this;
+    }
+
+    public void unsetRequest() {
+      this.request = null;
+    }
+
+    /** Returns true if field request is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequest() {
+      return this.request != null;
+    }
+
+    public void setRequestIsSet(boolean value) {
+      if (!value) {
+        this.request = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case REQUEST:
+        if (value == null) {
+          unsetRequest();
+        } else {
+          setRequest((RouteInfoRequest)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUEST:
+        return getRequest();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUEST:
+        return isSetRequest();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof pullRouteUpdate_args)
+        return this.equals((pullRouteUpdate_args)that);
+      return false;
+    }
+
+    public boolean equals(pullRouteUpdate_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_request = true && this.isSetRequest();
+      boolean that_present_request = true && that.isSetRequest();
+      if (this_present_request || that_present_request) {
+        if (!(this_present_request && that_present_request))
+          return false;
+        if (!this.request.equals(that.request))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(pullRouteUpdate_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetRequest()).compareTo(other.isSetRequest());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequest()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.request, other.request);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("pullRouteUpdate_args(");
+      boolean first = true;
+
+      sb.append("request:");
+      if (this.request == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.request);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (request != null) {
+        request.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class pullRouteUpdate_argsStandardSchemeFactory implements SchemeFactory {
+      public pullRouteUpdate_argsStandardScheme getScheme() {
+        return new pullRouteUpdate_argsStandardScheme();
+      }
+    }
+
+    private static class pullRouteUpdate_argsStandardScheme extends StandardScheme<pullRouteUpdate_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, pullRouteUpdate_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // REQUEST
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.request = new RouteInfoRequest();
+                struct.request.read(iprot);
+                struct.setRequestIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, pullRouteUpdate_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.request != null) {
+          oprot.writeFieldBegin(REQUEST_FIELD_DESC);
+          struct.request.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class pullRouteUpdate_argsTupleSchemeFactory implements SchemeFactory {
+      public pullRouteUpdate_argsTupleScheme getScheme() {
+        return new pullRouteUpdate_argsTupleScheme();
+      }
+    }
+
+    private static class pullRouteUpdate_argsTupleScheme extends TupleScheme<pullRouteUpdate_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdate_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetRequest()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRequest()) {
+          struct.request.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdate_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.request = new RouteInfoRequest();
+          struct.request.read(iprot);
+          struct.setRequestIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class pullRouteUpdate_result implements org.apache.thrift.TBase<pullRouteUpdate_result, pullRouteUpdate_result._Fields>, java.io.Serializable, Cloneable, Comparable<pullRouteUpdate_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("pullRouteUpdate_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new pullRouteUpdate_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new pullRouteUpdate_resultTupleSchemeFactory());
+    }
+
+    public RouteInfoUpdate success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RouteInfoUpdate.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(pullRouteUpdate_result.class, metaDataMap);
+    }
+
+    public pullRouteUpdate_result() {
+    }
+
+    public pullRouteUpdate_result(
+      RouteInfoUpdate success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public pullRouteUpdate_result(pullRouteUpdate_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new RouteInfoUpdate(other.success);
+      }
+    }
+
+    public pullRouteUpdate_result deepCopy() {
+      return new pullRouteUpdate_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public RouteInfoUpdate getSuccess() {
+      return this.success;
+    }
+
+    public pullRouteUpdate_result setSuccess(RouteInfoUpdate success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((RouteInfoUpdate)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof pullRouteUpdate_result)
+        return this.equals((pullRouteUpdate_result)that);
+      return false;
+    }
+
+    public boolean equals(pullRouteUpdate_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(pullRouteUpdate_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("pullRouteUpdate_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class pullRouteUpdate_resultStandardSchemeFactory implements SchemeFactory {
+      public pullRouteUpdate_resultStandardScheme getScheme() {
+        return new pullRouteUpdate_resultStandardScheme();
+      }
+    }
+
+    private static class pullRouteUpdate_resultStandardScheme extends StandardScheme<pullRouteUpdate_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, pullRouteUpdate_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new RouteInfoUpdate();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, pullRouteUpdate_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class pullRouteUpdate_resultTupleSchemeFactory implements SchemeFactory {
+      public pullRouteUpdate_resultTupleScheme getScheme() {
+        return new pullRouteUpdate_resultTupleScheme();
+      }
+    }
+
+    private static class pullRouteUpdate_resultTupleScheme extends TupleScheme<pullRouteUpdate_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdate_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdate_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new RouteInfoUpdate();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class pullRouteUpdates_args implements org.apache.thrift.TBase<pullRouteUpdates_args, pullRouteUpdates_args._Fields>, java.io.Serializable, Cloneable, Comparable<pullRouteUpdates_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("pullRouteUpdates_args");
+
+    private static final org.apache.thrift.protocol.TField REQUESTS_FIELD_DESC = new org.apache.thrift.protocol.TField("requests", org.apache.thrift.protocol.TType.LIST, (short)1);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new pullRouteUpdates_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new pullRouteUpdates_argsTupleSchemeFactory());
+    }
+
+    public List<RouteInfoRequest> requests; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      REQUESTS((short)1, "requests");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // REQUESTS
+            return REQUESTS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.REQUESTS, new org.apache.thrift.meta_data.FieldMetaData("requests", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RouteInfoRequest.class))));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(pullRouteUpdates_args.class, metaDataMap);
+    }
+
+    public pullRouteUpdates_args() {
+    }
+
+    public pullRouteUpdates_args(
+      List<RouteInfoRequest> requests)
+    {
+      this();
+      this.requests = requests;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public pullRouteUpdates_args(pullRouteUpdates_args other) {
+      if (other.isSetRequests()) {
+        List<RouteInfoRequest> __this__requests = new ArrayList<RouteInfoRequest>(other.requests.size());
+        for (RouteInfoRequest other_element : other.requests) {
+          __this__requests.add(new RouteInfoRequest(other_element));
+        }
+        this.requests = __this__requests;
+      }
+    }
+
+    public pullRouteUpdates_args deepCopy() {
+      return new pullRouteUpdates_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.requests = null;
+    }
+
+    public int getRequestsSize() {
+      return (this.requests == null) ? 0 : this.requests.size();
+    }
+
+    public java.util.Iterator<RouteInfoRequest> getRequestsIterator() {
+      return (this.requests == null) ? null : this.requests.iterator();
+    }
+
+    public void addToRequests(RouteInfoRequest elem) {
+      if (this.requests == null) {
+        this.requests = new ArrayList<RouteInfoRequest>();
+      }
+      this.requests.add(elem);
+    }
+
+    public List<RouteInfoRequest> getRequests() {
+      return this.requests;
+    }
+
+    public pullRouteUpdates_args setRequests(List<RouteInfoRequest> requests) {
+      this.requests = requests;
+      return this;
+    }
+
+    public void unsetRequests() {
+      this.requests = null;
+    }
+
+    /** Returns true if field requests is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequests() {
+      return this.requests != null;
+    }
+
+    public void setRequestsIsSet(boolean value) {
+      if (!value) {
+        this.requests = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case REQUESTS:
+        if (value == null) {
+          unsetRequests();
+        } else {
+          setRequests((List<RouteInfoRequest>)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case REQUESTS:
+        return getRequests();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case REQUESTS:
+        return isSetRequests();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof pullRouteUpdates_args)
+        return this.equals((pullRouteUpdates_args)that);
+      return false;
+    }
+
+    public boolean equals(pullRouteUpdates_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_requests = true && this.isSetRequests();
+      boolean that_present_requests = true && that.isSetRequests();
+      if (this_present_requests || that_present_requests) {
+        if (!(this_present_requests && that_present_requests))
+          return false;
+        if (!this.requests.equals(that.requests))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(pullRouteUpdates_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetRequests()).compareTo(other.isSetRequests());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequests()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.requests, other.requests);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("pullRouteUpdates_args(");
+      boolean first = true;
+
+      sb.append("requests:");
+      if (this.requests == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requests);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class pullRouteUpdates_argsStandardSchemeFactory implements SchemeFactory {
+      public pullRouteUpdates_argsStandardScheme getScheme() {
+        return new pullRouteUpdates_argsStandardScheme();
+      }
+    }
+
+    private static class pullRouteUpdates_argsStandardScheme extends StandardScheme<pullRouteUpdates_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, pullRouteUpdates_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // REQUESTS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list52 = iprot.readListBegin();
+                  struct.requests = new ArrayList<RouteInfoRequest>(_list52.size);
+                  for (int _i53 = 0; _i53 < _list52.size; ++_i53)
+                  {
+                    RouteInfoRequest _elem54;
+                    _elem54 = new RouteInfoRequest();
+                    _elem54.read(iprot);
+                    struct.requests.add(_elem54);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setRequestsIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, pullRouteUpdates_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.requests != null) {
+          oprot.writeFieldBegin(REQUESTS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.requests.size()));
+            for (RouteInfoRequest _iter55 : struct.requests)
+            {
+              _iter55.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class pullRouteUpdates_argsTupleSchemeFactory implements SchemeFactory {
+      public pullRouteUpdates_argsTupleScheme getScheme() {
+        return new pullRouteUpdates_argsTupleScheme();
+      }
+    }
+
+    private static class pullRouteUpdates_argsTupleScheme extends TupleScheme<pullRouteUpdates_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdates_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetRequests()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRequests()) {
+          {
+            oprot.writeI32(struct.requests.size());
+            for (RouteInfoRequest _iter56 : struct.requests)
+            {
+              _iter56.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdates_args struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            org.apache.thrift.protocol.TList _list57 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.requests = new ArrayList<RouteInfoRequest>(_list57.size);
+            for (int _i58 = 0; _i58 < _list57.size; ++_i58)
+            {
+              RouteInfoRequest _elem59;
+              _elem59 = new RouteInfoRequest();
+              _elem59.read(iprot);
+              struct.requests.add(_elem59);
+            }
+          }
+          struct.setRequestsIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class pullRouteUpdates_result implements org.apache.thrift.TBase<pullRouteUpdates_result, pullRouteUpdates_result._Fields>, java.io.Serializable, Cloneable, Comparable<pullRouteUpdates_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("pullRouteUpdates_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new pullRouteUpdates_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new pullRouteUpdates_resultTupleSchemeFactory());
+    }
+
+    public List<RouteInfoUpdate> success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RouteInfoUpdate.class))));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(pullRouteUpdates_result.class, metaDataMap);
+    }
+
+    public pullRouteUpdates_result() {
+    }
+
+    public pullRouteUpdates_result(
+      List<RouteInfoUpdate> success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public pullRouteUpdates_result(pullRouteUpdates_result other) {
+      if (other.isSetSuccess()) {
+        List<RouteInfoUpdate> __this__success = new ArrayList<RouteInfoUpdate>(other.success.size());
+        for (RouteInfoUpdate other_element : other.success) {
+          __this__success.add(new RouteInfoUpdate(other_element));
+        }
+        this.success = __this__success;
+      }
+    }
+
+    public pullRouteUpdates_result deepCopy() {
+      return new pullRouteUpdates_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    public java.util.Iterator<RouteInfoUpdate> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(RouteInfoUpdate elem) {
+      if (this.success == null) {
+        this.success = new ArrayList<RouteInfoUpdate>();
+      }
+      this.success.add(elem);
+    }
+
+    public List<RouteInfoUpdate> getSuccess() {
+      return this.success;
+    }
+
+    public pullRouteUpdates_result setSuccess(List<RouteInfoUpdate> success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((List<RouteInfoUpdate>)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof pullRouteUpdates_result)
+        return this.equals((pullRouteUpdates_result)that);
+      return false;
+    }
+
+    public boolean equals(pullRouteUpdates_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    @Override
+    public int compareTo(pullRouteUpdates_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("pullRouteUpdates_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class pullRouteUpdates_resultStandardSchemeFactory implements SchemeFactory {
+      public pullRouteUpdates_resultStandardScheme getScheme() {
+        return new pullRouteUpdates_resultStandardScheme();
+      }
+    }
+
+    private static class pullRouteUpdates_resultStandardScheme extends StandardScheme<pullRouteUpdates_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, pullRouteUpdates_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list60 = iprot.readListBegin();
+                  struct.success = new ArrayList<RouteInfoUpdate>(_list60.size);
+                  for (int _i61 = 0; _i61 < _list60.size; ++_i61)
+                  {
+                    RouteInfoUpdate _elem62;
+                    _elem62 = new RouteInfoUpdate();
+                    _elem62.read(iprot);
+                    struct.success.add(_elem62);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, pullRouteUpdates_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (RouteInfoUpdate _iter63 : struct.success)
+            {
+              _iter63.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class pullRouteUpdates_resultTupleSchemeFactory implements SchemeFactory {
+      public pullRouteUpdates_resultTupleScheme getScheme() {
+        return new pullRouteUpdates_resultTupleScheme();
+      }
+    }
+
+    private static class pullRouteUpdates_resultTupleScheme extends TupleScheme<pullRouteUpdates_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdates_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          {
+            oprot.writeI32(struct.success.size());
+            for (RouteInfoUpdate _iter64 : struct.success)
+            {
+              _iter64.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, pullRouteUpdates_result struct) throws org.apache.thrift.TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            org.apache.thrift.protocol.TList _list65 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new ArrayList<RouteInfoUpdate>(_list65.size);
+            for (int _i66 = 0; _i66 < _list65.size; ++_i66)
+            {
+              RouteInfoUpdate _elem67;
+              _elem67 = new RouteInfoUpdate();
+              _elem67.read(iprot);
+              struct.success.add(_elem67);
+            }
+          }
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 

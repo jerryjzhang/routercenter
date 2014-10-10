@@ -7,7 +7,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.qq.routercenter.share.dto.RouteInfo;
+import com.qq.routercenter.share.service.RouteInfo;
 
 public class WeightedRandomLoadBalancerTest {
 	private RouteInfo route;

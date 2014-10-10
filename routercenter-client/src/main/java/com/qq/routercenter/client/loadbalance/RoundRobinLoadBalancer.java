@@ -5,9 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 /**
  * The class that implements RoundRobin load balancing algorithm.
@@ -16,15 +15,15 @@ import com.qq.routercenter.share.dto.RouteNodeInfo;
  *
  */
 public class RoundRobinLoadBalancer extends LoadBalancer {
-	private final ConcurrentMap<ServiceIdentifier, AtomicInteger> currentPositions = 
-			new ConcurrentHashMap<ServiceIdentifier, AtomicInteger>();
+	private final ConcurrentMap<String, AtomicInteger> currentPositions = 
+			new ConcurrentHashMap<String, AtomicInteger>();
 	
 	@Override
 	public RouteNodeInfo doSelect(RouteInfo route, List<RouteNodeInfo> nodes) {
-		AtomicInteger pos = currentPositions.get(route.getServiceID());
+		AtomicInteger pos = currentPositions.get(route.getSid());
         if (pos == null) {
-            currentPositions.putIfAbsent(route.getServiceID(), new AtomicInteger(0));
-            pos = currentPositions.get(route.getServiceID());
+            currentPositions.putIfAbsent(route.getSid(), new AtomicInteger(0));
+            pos = currentPositions.get(route.getSid());
         }
         int current = pos.getAndIncrement();
         resetOnMax(pos);

@@ -13,9 +13,9 @@ import com.qq.routercenter.client.RouterCenter;
 import com.qq.routercenter.client.RouterConfigKeys;
 import com.qq.routercenter.client.pojo.RouteEvent;
 import com.qq.routercenter.client.pojo.RouteEvent.EventType;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
 import com.qq.routercenter.share.enums.RouteStrategyType;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public class BlacklistBasedArbiter extends Arbiter{
 	private ConcurrentMap<RouteNodeInfo, TimeBasedCounter> candidates =
@@ -30,7 +30,7 @@ public class BlacklistBasedArbiter extends Arbiter{
     	}
     	
     	Configuration config = getConfiguration(
-    			route.getStrategies().get(RouteStrategyType.ARBITER));
+    			route.getStrategies().get(RouteStrategyType.ARBITER.toString()));
     	long now = System.currentTimeMillis();
     	//skip candidates if possible
     	int effectiveTimes = config.getInt(RouterConfigKeys.ROUTER_ARBIT_EFFECTIVE_TIMES_KEY, 
@@ -38,7 +38,7 @@ public class BlacklistBasedArbiter extends Arbiter{
     	if(effectiveTimes == 1){
             candidates.remove(node);
     		blacklist.put(node, now);
-            RouteWatcher watcher = RouterCenter.getEventHandler(route.getServiceID());
+            RouteWatcher watcher = RouterCenter.getEventHandler(route.getSid());
             if(watcher != null){
             	watcher.process(new RouteEvent(EventType.NodeBlacklisted, node));
             }
@@ -55,7 +55,7 @@ public class BlacklistBasedArbiter extends Arbiter{
     			if(counter.getCounter().incrementAndGet() >= effectiveTimes){
     				candidates.remove(node);
     				blacklist.put(node, now);
-    				RouteWatcher watcher = RouterCenter.getEventHandler(route.getServiceID());
+    				RouteWatcher watcher = RouterCenter.getEventHandler(route.getSid());
     	            if(watcher != null){
     	            	watcher.process(new RouteEvent(EventType.NodeBlacklisted, node));
     	            }
@@ -83,7 +83,7 @@ public class BlacklistBasedArbiter extends Arbiter{
         		//check if the blacklisted route node expires
         		if(now - startTime >= expirePeroid){
         			blacklist.remove(node);
-        			RouteWatcher watcher = RouterCenter.getEventHandler(route.getServiceID());
+        			RouteWatcher watcher = RouterCenter.getEventHandler(route.getSid());
                     if(watcher != null){
                     	watcher.process(new RouteEvent(EventType.NodeWhitelisted, node));
                     }

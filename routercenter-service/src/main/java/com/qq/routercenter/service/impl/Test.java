@@ -8,6 +8,8 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
+import com.qq.routercenter.share.service.RouteInfoRequest;
+import com.qq.routercenter.share.service.RouteInfoUpdate;
 import com.qq.routercenter.share.service.RouteNodeInfo;
 import com.qq.routercenter.share.service.RouterServiceThrift;
 
@@ -15,7 +17,7 @@ public class Test {
 	public static void main(String[] args)throws Exception {
 		TTransport transport;
 
-		transport = new TSocket("localhost", 9090);
+		transport = new TSocket("localhost", 19800);
 		transport.open();
 
 		TProtocol protocol = new TBinaryProtocol(transport);
@@ -23,9 +25,13 @@ public class Test {
 				protocol);
 		List<RouteNodeInfo> nodes = new ArrayList<RouteNodeInfo>();
 		RouteNodeInfo node = new RouteNodeInfo("localhost", 50030);
+		node.setSid("buz.svr");
 		nodes.add(node);
 		client.heartbeat(nodes);
-
+		RouteInfoRequest request = new RouteInfoRequest();
+		request.setSid("demo.simple-socket-service");
+		RouteInfoUpdate update = client.pullRouteUpdate(request);
+		System.out.println(update.getResult());
 		transport.close();
 	}
 }

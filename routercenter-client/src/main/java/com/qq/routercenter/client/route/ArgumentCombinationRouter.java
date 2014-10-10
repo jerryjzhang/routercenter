@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.RpcInvocationContext;
 import com.qq.routercenter.share.domain.RouteParam;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteRuleInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteRuleInfo;
 
 public class ArgumentCombinationRouter extends Router{
 	private static final Logger LOG = Logger.getLogger(ArgumentCombinationRouter.class);

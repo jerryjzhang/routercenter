@@ -12,15 +12,14 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.log4j.Logger;
 
 import com.qq.routercenter.client.RouterConfigKeys;
-import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.dto.RouteInfo;
+import com.qq.routercenter.share.service.RouteInfo;
 
 /* Cache used to record router information. */
 public class RouteInfoCache {
 	private static final Logger LOG = Logger.getLogger(RouteInfoCache.class);
 			
-    private static final ConcurrentMap<ServiceIdentifier, RouteInfo> allRoutes = 
-    	new ConcurrentHashMap<ServiceIdentifier, RouteInfo>(); 
+    private static final ConcurrentMap<String, RouteInfo> allRoutes = 
+    	new ConcurrentHashMap<String, RouteInfo>(); 
     
     private static final File CACHE_BASE_DIR;
 	private static final String CACHE_FILE_SUFFIX = ".xml";
@@ -42,35 +41,35 @@ public class RouteInfoCache {
     }
     
     /* Load service information for a specified service. */
-    public static void loadRoute(ServiceIdentifier serviceID, RouteInfo route, boolean writeFile) {
+    public static void loadRoute(String serviceID, RouteInfo route, boolean writeFile) {
     	allRoutes.put(serviceID, route);
     	if(writeFile){
     		writeCacheFile(serviceID, route);
     	}
     }
     
-    public static void loadRoute(ServiceIdentifier serviceID, RouteInfo route) {
+    public static void loadRoute(String serviceID, RouteInfo route) {
     	loadRoute(serviceID, route, true); //default write local cache file
     }
     
-    public static RouteInfo getRoute(ServiceIdentifier serviceID) {
+    public static RouteInfo getRoute(String serviceID) {
     	return getRoute(serviceID, false);
     }
     
-    public static RouteInfo getRoute(ServiceIdentifier serviceID, boolean useFile) {
+    public static RouteInfo getRoute(String serviceID, boolean useFile) {
     	return useFile == false ? allRoutes.get(serviceID) : readCacheFile(serviceID);
     }
     
-    public static void evitRoute(ServiceIdentifier serviceID){
+    public static void evitRoute(String serviceID){
     	allRoutes.remove(serviceID);
     }
 	
-	private static void writeCacheFile(ServiceIdentifier serviceID, RouteInfo route){
+	private static void writeCacheFile(String serviceID, RouteInfo route){
 		if(!CACHE_SWITCH_ON){ return; }
 		
 		String cacheFilePath = null;
 		try{
-			cacheFilePath = buildCacheFilePath(serviceID.toFullSID());
+			cacheFilePath = buildCacheFilePath(serviceID);
 			OutputStream os = new FileOutputStream(cacheFilePath);
 			RouteFileManager.write(route, os);
 		}catch(RouteFileException e){
@@ -80,10 +79,10 @@ public class RouteInfoCache {
 		}
 	}
 	
-	private static RouteInfo readCacheFile(ServiceIdentifier serviceID){
+	private static RouteInfo readCacheFile(String serviceID){
 		if(!CACHE_SWITCH_ON){ return null; }
 		
-    	String cacheFilePath = buildCacheFilePath(serviceID.toFullSID());
+    	String cacheFilePath = buildCacheFilePath(serviceID);
 		
 		try{
 			InputStream is = new FileInputStream(cacheFilePath);

@@ -9,7 +9,7 @@ import com.qq.routercenter.service.dao.impl.RouteNodeDaoImpl;
 import com.qq.routercenter.service.dbpool.DBPool;
 import com.qq.routercenter.service.dbpool.H2DBPool;
 import com.qq.routercenter.share.domain.RouteNode;
-import com.qq.routercenter.share.dto.RouteNodeQueryCriteria;
+import com.qq.routercenter.share.service.RouteNodeQueryCriteria;
 import com.qq.routercenter.share.enums.RouteNodeType;
 import com.qq.routercenter.share.enums.State;
 

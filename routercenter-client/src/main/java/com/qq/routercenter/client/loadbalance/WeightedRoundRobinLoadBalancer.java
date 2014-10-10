@@ -6,9 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 /**
  * The class that implements weight-based RoundRobin 
@@ -18,14 +17,14 @@ import com.qq.routercenter.share.dto.RouteNodeInfo;
  *
  */
 public class WeightedRoundRobinLoadBalancer extends LoadBalancer {
-	private final ConcurrentMap<ServiceIdentifier, AtomicInteger> currentPositions = 
-			new ConcurrentHashMap<ServiceIdentifier, AtomicInteger>();
-    private final ConcurrentMap<ServiceIdentifier, AtomicInteger> currentWeights =
-    		new ConcurrentHashMap<ServiceIdentifier, AtomicInteger>();
+	private final ConcurrentMap<String, AtomicInteger> currentPositions = 
+			new ConcurrentHashMap<String, AtomicInteger>();
+    private final ConcurrentMap<String, AtomicInteger> currentWeights =
+    		new ConcurrentHashMap<String, AtomicInteger>();
 	
     @Override
 	public RouteNodeInfo doSelect(RouteInfo route, List<RouteNodeInfo> nodes) {
-		ServiceIdentifier serviceID = route.getServiceID();
+		String serviceID = route.getSid();
 		AtomicInteger pos = currentPositions.get(serviceID);
         if (pos == null) {
             currentPositions.putIfAbsent(serviceID, new AtomicInteger(-1));

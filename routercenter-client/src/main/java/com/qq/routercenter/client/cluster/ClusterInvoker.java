@@ -11,15 +11,15 @@ import com.qq.routercenter.client.arbite.Arbiter;
 import com.qq.routercenter.client.loadbalance.LoadBalancer;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.ReturnResult;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteStrategyInfo;
 import com.qq.routercenter.share.enums.FaultToleranceStrategy;
 import com.qq.routercenter.share.enums.RouteStrategyType;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteStrategyInfo;
 
 public abstract class ClusterInvoker extends StrategyConfigurable{
 	public static FaultToleranceStrategy getStrategy(RouteStrategyInfo strategy){
-		if(strategy != null && strategy.getType() == RouteStrategyType.FAULT_TOLERANCE){
+		if(strategy != null && RouteStrategyType.FAULT_TOLERANCE.toString().equals(strategy.getType())){
 			return FaultToleranceStrategy.valueOf(strategy.getOption());
 		}
 
@@ -31,7 +31,7 @@ public abstract class ClusterInvoker extends StrategyConfigurable{
 		LoadBalancer lb = BeanFactory.getLoadBalancer(
 				LoadBalancer.getStrategy(route.getStrategies().get(RouteStrategyType.LOAD_BALANCE)));
 		Arbiter arbiter = BeanFactory.getArbiter(
-				Arbiter.getStrategy(route.getStrategies().get(RouteStrategyType.ARBITER)));
+				Arbiter.getStrategy(route.getStrategies().get(RouteStrategyType.ARBITER.toString())));
 		Configuration config = getConfiguration(
 				route.getStrategies().get(RouteStrategyType.FAULT_TOLERANCE));
 		

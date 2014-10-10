@@ -3,11 +3,11 @@ package com.qq.routercenter.client.loadbalance;
 import java.util.List;
 
 import com.qq.routercenter.client.StrategyConfigurable;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteStrategyInfo;
 import com.qq.routercenter.share.enums.LoadBalanceStrategy;
 import com.qq.routercenter.share.enums.RouteStrategyType;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteStrategyInfo;
 
 /**
  * The base class of all LoadBalancers that select one {@link RouteNodeInfo}
@@ -18,7 +18,7 @@ import com.qq.routercenter.share.enums.RouteStrategyType;
  */
 public abstract class LoadBalancer extends StrategyConfigurable{
 	public static LoadBalanceStrategy getStrategy(RouteStrategyInfo strategy) {
-		if(strategy != null && strategy.getType() == RouteStrategyType.LOAD_BALANCE){
+		if(strategy != null && RouteStrategyType.LOAD_BALANCE.toString().equals(strategy.getType())){
 			return LoadBalanceStrategy.valueOf(strategy.getOption());
 		}
 

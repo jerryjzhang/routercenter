@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.qq.routercenter.client.BeanFactory;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 import com.qq.routercenter.share.enums.LoadBalanceStrategy;
 
 public class LoadBalancerTest {

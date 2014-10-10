@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.RpcInvocationContext;
 import com.qq.routercenter.share.domain.RouteParam;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteRuleInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteRuleInfo;
 import com.qq.routercenter.share.enums.RouteRuleOp;
 
 public class ArgumentRouter extends Router{
@@ -48,14 +48,14 @@ public class ArgumentRouter extends Router{
 						String paramValue = (String)rpcCtx.getMethodArgs()[paramIndex];
 						boolean isMatch = paramValue.equals(rule.getSrcValue());
 						String[] dstHostPatterns = rule.getDestination().split(ROUTE_RULE_DELIMITER);
-						if (isMatch && rule.getSrcOp() == RouteRuleOp.EQUAL) {
+						if (isMatch && RouteRuleOp.EQUAL.toString().equals(rule.getSrcOp())) {
 							nodes = findMatchingNodes(dstHostPatterns, nodes);
-						} else if (!isMatch && rule.getSrcOp() == RouteRuleOp.INEQUAL) {
+						} else if (!isMatch && RouteRuleOp.INEQUAL.toString().equals(rule.getSrcOp())) {
 							nodes = findMatchingNodes(dstHostPatterns, nodes);
 						}
 					}else if(Integer.class.equals(paramClass) || int.class.equals(paramClass)){
 						String[] dstHostPatterns = rule.getDestination().split(ROUTE_RULE_DELIMITER);
-						if(rule.getSrcOp() == RouteRuleOp.BETWEEN){
+						if(RouteRuleOp.BETWEEN.toString().equals(rule.getSrcOp())){
 							String [] values = rule.getSrcValue().split("-");
 							if(values.length != 2){
 								LOG.error("The format of the prop value is invalid for between condition");
@@ -72,9 +72,9 @@ public class ArgumentRouter extends Router{
 						
 						Integer paramValue = (Integer)rpcCtx.getMethodArgs()[paramIndex];
 						boolean isMatch = paramValue.equals(Integer.valueOf(rule.getSrcValue()));
-						if (isMatch && rule.getSrcOp() == RouteRuleOp.EQUAL) {
+						if (isMatch && RouteRuleOp.EQUAL.toString().equals(rule.getSrcOp())) {
 							nodes = findMatchingNodes(dstHostPatterns, nodes);
-						} else if (!isMatch && rule.getSrcOp() == RouteRuleOp.INEQUAL) {
+						} else if (!isMatch && RouteRuleOp.INEQUAL.toString().equals(rule.getSrcOp())) {
 							nodes = findMatchingNodes(dstHostPatterns, nodes);
 						}
 					}

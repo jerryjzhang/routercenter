@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public class TestUtils {
 	static RouteInfo createMockRouteNodesWithSameWeight(int count){

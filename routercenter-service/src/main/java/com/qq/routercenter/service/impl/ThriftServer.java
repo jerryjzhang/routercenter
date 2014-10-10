@@ -18,7 +18,7 @@ public class ThriftServer {
 			handler = new RouterServiceThriftImpl();
 			processor = new RouterServiceThrift.Processor(handler);
 
-			TServerTransport serverTransport = new TServerSocket(9090);
+			TServerTransport serverTransport = new TServerSocket(19800);
 			TServer server = new TSimpleServer(
 					new Args(serverTransport).processor(processor));
 

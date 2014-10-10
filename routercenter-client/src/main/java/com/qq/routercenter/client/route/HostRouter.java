@@ -12,8 +12,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.qq.routercenter.client.pojo.InvocationContext;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteRuleInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteRuleInfo;
 import com.qq.routercenter.share.enums.RouteRuleOp;
 
 public class HostRouter extends Router {
@@ -44,9 +44,9 @@ public class HostRouter extends Router {
 				break;
 			}
 		}
-		if (isMatch && rule.getSrcOp() == RouteRuleOp.EQUAL) {
+		if (isMatch && RouteRuleOp.EQUAL.toString().equals(rule.getSrcOp())) {
 			nodes = findMatchingNodes(dstHostPatterns, nodes);
-		} else if (!isMatch && rule.getSrcOp() == RouteRuleOp.INEQUAL) {
+		} else if (!isMatch && RouteRuleOp.INEQUAL.toString().equals(rule.getSrcOp())) {
 			nodes = findMatchingNodes(dstHostPatterns, nodes);
 		}
 

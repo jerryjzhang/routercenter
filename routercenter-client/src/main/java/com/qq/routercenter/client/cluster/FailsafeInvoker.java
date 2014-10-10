@@ -11,8 +11,8 @@ import com.qq.routercenter.client.loadbalance.LoadBalancer;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.ReturnCode;
 import com.qq.routercenter.client.pojo.ReturnResult;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public class FailsafeInvoker extends ClusterInvoker{
 	private static final Logger LOG = Logger.getLogger(FailsafeInvoker.class);

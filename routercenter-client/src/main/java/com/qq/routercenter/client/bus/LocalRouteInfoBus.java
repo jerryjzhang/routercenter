@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteInfoList;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteInfoList;
 
 public class LocalRouteInfoBus extends RouteInfoBus {
 	private static final Logger LOG = Logger.getLogger(LocalRouteInfoBus.class);
@@ -35,7 +35,7 @@ public class LocalRouteInfoBus extends RouteInfoBus {
 		
 		if(routeList != null){
 			for(RouteInfo route : routeList.getRoutes()){
-				RouteInfoCache.loadRoute(route.getServiceID(), route, false);
+				RouteInfoCache.loadRoute(route.getSid(), route, false);
 			}
 		}
 	}

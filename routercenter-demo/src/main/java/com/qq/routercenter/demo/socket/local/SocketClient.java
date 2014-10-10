@@ -10,7 +10,7 @@ import com.qq.routercenter.client.RouterCenter;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.ReturnCode;
 import com.qq.routercenter.client.pojo.ReturnResult;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public class SocketClient {
     public static void main(String[] args) throws IOException, InterruptedException {

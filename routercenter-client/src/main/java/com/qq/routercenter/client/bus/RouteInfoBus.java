@@ -12,15 +12,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.log4j.Logger;
 
-import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.dto.RouteInfo;
-import com.qq.routercenter.share.dto.RouteInfoList;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteInfo;
+import com.qq.routercenter.share.service.RouteInfoList;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public abstract class RouteInfoBus {
 	private static final Logger LOG = Logger.getLogger(RouteInfoBus.class);
 
-	protected Set<ServiceIdentifier> discoveredServices = new CopyOnWriteArraySet<ServiceIdentifier>();
+	protected Set<String> discoveredServices = new CopyOnWriteArraySet<String>();
 	protected List<RouteNodeInfo> registeredNodes = new CopyOnWriteArrayList<RouteNodeInfo>();
 	
 	public void load(String filePath){
@@ -38,7 +37,7 @@ public abstract class RouteInfoBus {
 		
 		if(routeList != null){
 			for(RouteInfo route : routeList.getRoutes()){
-				RouteInfoCache.loadRoute(route.getServiceID(), route, false);
+				RouteInfoCache.loadRoute(route.getSid(), route, false);
 			}
 		}
 	}
@@ -56,34 +55,34 @@ public abstract class RouteInfoBus {
 		
 		if(routeList != null){
 			for(RouteInfo route : routeList.getRoutes()){
-				RouteInfoCache.loadRoute(route.getServiceID(), route, false);
+				RouteInfoCache.loadRoute(route.getSid(), route, false);
 			}
 		}
 	}
 	
 	public void load(RouteInfo route){
-		RouteInfoCache.loadRoute(route.getServiceID(), route, false);
+		RouteInfoCache.loadRoute(route.getSid(), route, false);
 	}
 	
-	public RouteInfo get(ServiceIdentifier serviceID){
+	public RouteInfo get(String serviceID){
 		return RouteInfoCache.getRoute(serviceID);
 	}
 	
-    public void discoverService(ServiceIdentifier serviceID){
+    public void discoverService(String serviceID){
     	discoveredServices.add(serviceID);
     }
-    public void undiscoveryService(ServiceIdentifier serviceID){
+    public void undiscoveryService(String serviceID){
     	discoveredServices.remove(serviceID);
     	RouteInfoCache.evitRoute(serviceID);
     }
     public void registerService(RouteNodeInfo node){
     	registeredNodes.add(node);
     }
-    public void unregisterService(ServiceIdentifier serviceID){
+    public void unregisterService(String serviceID){
     	Iterator<RouteNodeInfo> itr = registeredNodes.iterator();
     	while(itr.hasNext()){
     		RouteNodeInfo node = itr.next();
-    		if(node.getServiceID().equals(serviceID)){
+    		if(node.getSid().equals(serviceID)){
     			itr.remove();
     		}
     	}

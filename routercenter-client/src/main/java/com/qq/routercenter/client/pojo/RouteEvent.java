@@ -1,6 +1,6 @@
 package com.qq.routercenter.client.pojo;
 
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 public class RouteEvent {
 	private EventType type;

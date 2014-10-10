@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qq.routercenter.client.pojo.InvocationContext;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
-import com.qq.routercenter.share.dto.RouteRuleInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteRuleInfo;
 
 /**
  * The base class of all Routers that route invocations

@@ -4,7 +4,7 @@ import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.MapConfiguration;
 
-import com.qq.routercenter.share.dto.RouteStrategyInfo;
+import com.qq.routercenter.share.service.RouteStrategyInfo;
 
 public abstract class StrategyConfigurable {
 	public Configuration getConfiguration(RouteStrategyInfo strategy) {

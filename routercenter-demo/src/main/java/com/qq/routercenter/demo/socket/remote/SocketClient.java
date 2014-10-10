@@ -11,7 +11,7 @@ import com.qq.routercenter.client.RouterConfigKeys;
 import com.qq.routercenter.client.pojo.InvocationContext;
 import com.qq.routercenter.client.pojo.ReturnCode;
 import com.qq.routercenter.client.pojo.ReturnResult;
-import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.service.RouteNodeInfo;
 
 /**
  * Sample Socket Client that discovers servers using routercenter 

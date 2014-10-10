@@ -29,9 +29,19 @@ import java.util.Collections;
 import java.util.BitSet;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouteNodeInfo implements org.apache.thrift.TBase<RouteNodeInfo, RouteNodeInfo._Fields>, java.io.Serializable, Cloneable, Comparable<RouteNodeInfo> {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RouteNodeInfo");
 
