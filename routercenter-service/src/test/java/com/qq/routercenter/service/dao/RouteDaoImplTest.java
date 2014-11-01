@@ -11,7 +11,7 @@ import com.qq.routercenter.service.dao.impl.RouteDaoImpl;
 import com.qq.routercenter.service.dbpool.DBPool;
 import com.qq.routercenter.service.dbpool.H2DBPool;
 import com.qq.routercenter.share.domain.Route;
-import com.qq.routercenter.share.service.RouteQueryCriteria;
+import com.qq.routercenter.share.dto.RouteQueryCriteria;
 import com.qq.routercenter.share.enums.State;
 
 public class RouteDaoImplTest {

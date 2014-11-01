@@ -16,7 +16,7 @@ import com.qq.routercenter.service.dbpool.DBPool;
 import com.qq.routercenter.service.dbpool.H2DBPool;
 import com.qq.routercenter.share.domain.Route;
 import com.qq.routercenter.share.domain.RouteRule;
-import com.qq.routercenter.share.service.RouteRuleQueryCriteria;
+import com.qq.routercenter.share.dto.RouteRuleQueryCriteria;
 import com.qq.routercenter.share.enums.RouteRuleOp;
 import com.qq.routercenter.share.enums.RouteRuleType;
 import com.qq.routercenter.share.enums.State;

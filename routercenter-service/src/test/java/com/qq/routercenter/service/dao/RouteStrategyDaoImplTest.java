@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.qq.routercenter.service.dao.impl.RouteStrategyDaoImpl;
 import com.qq.routercenter.share.domain.RouteStrategy;
-import com.qq.routercenter.share.service.RouteStrategyQueryCriteria;
+import com.qq.routercenter.share.dto.RouteStrategyQueryCriteria;
 import com.qq.routercenter.share.enums.RouteStrategyType;
 import com.qq.routercenter.share.enums.State;
 import com.qq.routercenter.service.dbpool.DBPool;

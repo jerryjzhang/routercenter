@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import com.qq.routercenter.service.impl.RouterServiceImpl;
 import com.qq.routercenter.share.domain.ServiceIdentifier;
-import com.qq.routercenter.share.service.RouteDTO;
-import com.qq.routercenter.share.service.RouteInfoRequest;
-import com.qq.routercenter.share.service.RouteInfoUpdate;
+import com.qq.routercenter.share.dto.RouteDTO;
+import com.qq.routercenter.share.dto.RouteInfoRequest;
+import com.qq.routercenter.share.dto.RouteInfoUpdate;
 import com.qq.routercenter.share.enums.State;
 import com.qq.routercenter.share.service.RouterService;
 
