@@ -25,13 +25,14 @@ public class Test {
 				protocol);
 		List<RouteNodeInfo> nodes = new ArrayList<RouteNodeInfo>();
 		RouteNodeInfo node = new RouteNodeInfo("localhost", 50030);
-		node.setSid("buz.svr");
+		node.setSid("demo.simple-socket-service");
 		nodes.add(node);
 		client.heartbeat(nodes);
 		RouteInfoRequest request = new RouteInfoRequest();
 		request.setSid("demo.simple-socket-service");
 		RouteInfoUpdate update = client.pullRouteUpdate(request);
 		System.out.println(update.getResult());
+		Thread.sleep(300 * 1000);
 		transport.close();
 	}
 }

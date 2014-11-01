@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import com.qq.routercenter.client.pojo.RpcInvocationContext;
 import com.qq.routercenter.share.domain.RouteParam;
-import com.qq.routercenter.share.service.RouteInfo;
-import com.qq.routercenter.share.service.RouteNodeInfo;
-import com.qq.routercenter.share.service.RouteRuleInfo;
+import com.qq.routercenter.share.dto.RouteInfo;
+import com.qq.routercenter.share.dto.RouteNodeInfo;
+import com.qq.routercenter.share.dto.RouteRuleInfo;
 import com.qq.routercenter.share.enums.RouteRuleOp;
 import com.qq.routercenter.share.enums.RouteRuleType;
 
