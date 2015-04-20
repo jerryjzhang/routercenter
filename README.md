@@ -114,3 +114,84 @@
 ![WorkMode][5]
 
   [5]: https://raw.githubusercontent.com/tragicjun/tragicjun.github.io/master/images/RouterCenterWorkModes.png
+  
+## 应用示例
+
+下面用一个简单的socket通讯作示例，演示如何使用软负载SDK。
+
+### 服务端
+
+```
+public static void main(String[] args) throws IOException {
+    //获取软负载SDK入口实例，输入软负载中心的地址列表
+    RouterCenter routerCenter = RouterCenter.getInstance("localhost:19800,localhost:19900");
+    //向软负载SDK注册服务节点，绑定节点(SID, host,port)，其中SID为服务标识，必须以.号分隔
+    routerCenter.registerService("demo.simple-socket-service", "localhost", 50030);
+    
+    try {
+        ServerSocket listener = new ServerSocket(50030);
+        while (true) {
+            Socket socket = listener.accept();
+            try {
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                out.println("I'm localhost:"+ 50030);
+            } finally {
+                socket.close();
+            }
+        }
+    }
+    finally {
+        listener.close();
+    }
+}
+```
+
+### 客户端
+
+客户端通过代理模式来发起服务调用，因而首先需要继承软负载SDK的ServiceProxy抽象类，并实现invoke方法来发起远程调用，软负载SDK本身不参与远程调用：
+
+```
+static class SocketServiceProxy extends ServiceProxy {
+    public SocketServiceProxy(RouterCenter routerCenter, String sid){
+        super(routerCenter, sid);
+    }
+    
+    public Object invoke(RouteNodeInfo node, InvocationContext ctx){
+        Socket s = null;
+        try{
+            s = new Socket(node.getHost(), node.getPort());
+            BufferedReader input =
+                new BufferedReader(new InputStreamReader(s.getInputStream()));
+            return input.readLine();
+        }catch(IOException e){
+            //抛出InvocationException表示调用异常，可能触发软负载SDK执行失败切换，即换一个服务节点重试
+            throw new InvocationException(e);
+        }finally{
+            if(s != null){
+                try{ 
+                    s.close();
+                }catch(Exception e){ }
+            }
+        }
+    }
+}
+```
+
+通过软负载Driver程序初始化SDK、实例化ServiceProxy、发起调用：
+
+```
+public static void main(String[] args) throws IOException, InterruptedException {
+    //获取软负载SDK入口实例，输入软负载中心的地址列表
+    RouterCenter routerCenter = RouterCenter.getInstance("localhost:19800,localhost:19900");
+    //实例化ServiceProxy，输入对应service的服务标识SID
+    ServiceProxy simpleSocketService = new SocketServiceProxy(routerCenter, "demo.simple-socket-service");
+    
+    int callID = 1;
+    while(true){
+        //通过ServiceProxy对服务发起调用
+        String msg = (String)simpleSocketService.invokeService();;
+        System.out.println("callID=" + callID++ + " Received: " + msg);
+        Thread.sleep(1000);
+    }
+}
+```
